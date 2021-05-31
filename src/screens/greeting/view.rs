@@ -4,6 +4,13 @@ use routing::message::Message;
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
 
 use super::state::{Model, ViewState};
+use rand::seq::SliceRandom;
+
+const GREETINGS: &[&str] = &["Bonjour", "Hola", "Olá", "Ciao", "Hi", "Hallo", "Hey"];
+
+fn greeting() -> &'static str {
+    GREETINGS.choose(&mut rand::thread_rng()).unwrap()
+}
 
 pub(super) fn greeting_view<'a>(
     model: &'a Model,
@@ -13,7 +20,10 @@ pub(super) fn greeting_view<'a>(
         Column::new()
             .spacing(20)
             .align_items(Align::Center)
-            .push(Text::new(format!("Hello {}", model.person_name)).height(Length::Units(20)))
+            .push(
+                Text::new(format!("{} {}", greeting(), model.person_name))
+                    .height(Length::Units(20)),
+            )
             .push(
                 Button::new(&mut view_state.button_state, Text::new("Go Back!"))
                     .on_press(Message::PopScreen),

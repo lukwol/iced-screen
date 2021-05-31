@@ -10,4 +10,5 @@ edition = "2018"
 
 [dependencies]
 iced = "0.3.0"
+rand = "0.8.3"
 routing = { path = "routing" }
