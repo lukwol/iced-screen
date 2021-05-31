@@ -1,5 +1,5 @@
 [package]
-name = "routing"
+name = "iced-app"
 version = "0.1.0"
 authors = ["Łukasz W <wolanczyk.lukasz@gmail.com>"]
 edition = "2018"

@@ -1,5 +1,5 @@
 use iced::{Command, Element};
-use routing::{message::Message, screen::Screen};
+use iced_app::{message::Message, screen::Screen};
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
 

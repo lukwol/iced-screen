@@ -1,5 +1,5 @@
 use iced::{Align, Button, Column, Container, Element, Length, Space, Text, TextInput};
-use routing::message::{Message, NavigationType};
+use iced_app::message::{Message, NavigationType};
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
 

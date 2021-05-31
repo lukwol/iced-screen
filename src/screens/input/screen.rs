@@ -1,5 +1,5 @@
 use iced::{Command, Element};
-use routing::{
+use iced_app::{
     message::Message,
     screen::{InitialScreen, Screen},
 };

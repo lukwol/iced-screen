@@ -1,5 +1,5 @@
 [package]
-name = "iced-routing-poc"
+name = "iced-app-example"
 version = "0.1.0"
 authors = ["Łukasz Wolańczyk <wolanczyk.lukasz@gmail.com>"]
 edition = "2018"
@@ -11,4 +11,4 @@ edition = "2018"
 [dependencies]
 iced = "0.3.0"
 rand = "0.8.3"
-routing = { path = "routing" }
+iced-app = { path = "iced-app" }
