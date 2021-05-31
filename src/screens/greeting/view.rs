@@ -20,10 +20,7 @@ pub(super) fn greeting_view<'a>(
         Column::new()
             .spacing(20)
             .align_items(Align::Center)
-            .push(
-                Text::new(format!("{} {}", greeting(), model.person_name))
-                    .height(Length::Units(20)),
-            )
+            .push(Text::new(format!("{} {}", greeting(), model.person_name)).size(40))
             .push(
                 Button::new(&mut view_state.button_state, Text::new("Go Back!"))
                     .on_press(Message::PopScreen),

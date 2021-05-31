@@ -1,6 +1,4 @@
-use iced::{
-    Align, Button, Column, Container, Element, Length, Text, TextInput,
-};
+use iced::{Align, Button, Column, Container, Element, Length, Text, TextInput};
 use routing::message::{Message, NavigationType};
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
@@ -20,8 +18,7 @@ pub(super) fn input_view<'a>(
             .align_items(Align::Center)
             .push(
                 Text::new("Greet Me!")
-                    .height(Length::Units(20))
-                    .width(Length::Units(100)),
+                    .size(30),
             )
             .push(
                 TextInput::new(
