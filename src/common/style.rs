@@ -30,12 +30,6 @@ mod dark {
         0x4B as f32 / 255.0,
     );
 
-    const ACCENT: Color = Color::from_rgb(
-        0x6F as f32 / 255.0,
-        0xFF as f32 / 255.0,
-        0xE9 as f32 / 255.0,
-    );
-
     const ACTIVE: Color = Color::from_rgb(
         0x72 as f32 / 255.0,
         0x89 as f32 / 255.0,
@@ -75,7 +69,7 @@ mod dark {
         fn focused(&self) -> text_input::Style {
             text_input::Style {
                 border_width: 1.0,
-                border_color: ACCENT,
+                border_color: ACTIVE,
                 ..self.active()
             }
         }
@@ -83,7 +77,7 @@ mod dark {
         fn hovered(&self) -> text_input::Style {
             text_input::Style {
                 border_width: 1.0,
-                border_color: Color { a: 0.3, ..ACCENT },
+                border_color: Color { a: 0.3, ..ACTIVE },
                 ..self.focused()
             }
         }
