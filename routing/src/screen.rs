@@ -17,6 +17,19 @@ pub trait Screen<RouteMessage, ScreenMessage, GlobalMessage = ()>: Debug + Send 
 
     fn global_update(&mut self, _message: GlobalMessage, _clipboard: &mut iced::Clipboard) {}
 
+    fn on_push(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+        Command::none()
+    }
+    fn on_push_stack(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+        Command::none()
+    }
+    fn on_pop(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+        Command::none()
+    }
+    fn on_pop_stack(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+        Command::none()
+    }
+
     fn view(&mut self) -> Element<Message<RouteMessage, ScreenMessage, GlobalMessage>>;
 }
 

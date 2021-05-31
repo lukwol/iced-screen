@@ -115,24 +115,30 @@ where
             } => match navigation_type {
                 NavigationType::PushScreen => {
                     self.top_screen_stack_mut().push(Router::screen(route));
-                    Command::none()
+                    self.top_screen_mut().on_push()
                 }
                 NavigationType::PushScreenStack => {
                     self.screen_stacks.push(vec![Router::screen(route)]);
-                    Command::none()
+                    self.top_screen_mut().on_push_stack()
                 }
             },
             Message::PopScreenStack => {
                 if self.screen_stacks.len() > 1 {
+                    let command = self.top_screen_mut().on_pop_stack();
                     self.screen_stacks.pop();
+                    command
+                } else {
+                    Command::none()
                 }
-                Command::none()
             }
             Message::PopScreen => {
                 if self.top_screen_stack().len() > 1 {
+                    let command = self.top_screen_mut().on_pop_stack();
                     self.top_screen_stack_mut().pop();
+                    command
+                } else {
+                    Command::none()
                 }
-                Command::none()
             }
         }
     }
