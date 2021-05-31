@@ -1,4 +1,4 @@
-use iced::{Align, Button, Column, Container, Element, Length, Text};
+use iced::{Align, Button, Column, Container, Element, Length, Space, Text};
 use routing::message::Message;
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
@@ -18,17 +18,20 @@ pub(super) fn greeting_view<'a>(
 ) -> Element<'a, Message<RouteMessage, ScreenMessage>> {
     Container::new(
         Column::new()
-            .spacing(20)
             .align_items(Align::Center)
-            .push(Text::new(format!("{} {}", greeting(), model.person_name)).size(40))
+            .push(Text::new(format!("{}, {}", greeting(), model.person_name)).size(40))
+            .push(Space::new(Length::Units(0), Length::Units(30)))
             .push(
                 Button::new(&mut view_state.button_state, Text::new("Go Back!"))
-                    .on_press(Message::PopScreen),
+                    .padding(10)
+                    .on_press(Message::PopScreen)
+                    .style(view_state.theme),
             ),
     )
     .width(Length::Fill)
     .height(Length::Fill)
     .center_x()
     .center_y()
+    .style(view_state.theme)
     .into()
 }

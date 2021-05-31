@@ -1,5 +1,7 @@
 use iced::{button, text_input};
 
+use crate::common::style::Theme;
+
 #[derive(Debug, Default)]
 pub(super) struct Model {
     pub(super) person_name: String,
@@ -9,6 +11,7 @@ pub(super) struct Model {
 pub(super) struct ViewState {
     pub(super) button_state: button::State,
     pub(super) text_input_state: text_input::State,
+    pub(super) theme: Theme,
 }
 
 #[derive(Debug, Default)]

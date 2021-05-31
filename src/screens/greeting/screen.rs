@@ -1,4 +1,4 @@
-use iced::{button, Command, Element};
+use iced::{Command, Element};
 use routing::{message::Message, screen::Screen};
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
@@ -18,9 +18,7 @@ impl GreetingScreen {
         GreetingScreen {
             state: State {
                 model: Model { person_name },
-                view_state: ViewState {
-                    button_state: button::State::default(),
-                },
+                view_state: ViewState::default(),
             },
         }
     }
@@ -28,7 +26,7 @@ impl GreetingScreen {
 
 impl Screen<RouteMessage, ScreenMessage> for GreetingScreen {
     fn title(&self) -> String {
-        format!("Hello {}", self.state.model.person_name)
+        "Greeter App".to_string()
     }
 
     fn update(
