@@ -80,14 +80,18 @@ where
     type Flags = Flags;
 
     fn new(flags: Self::Flags) -> (Self, Command<Self::Message>) {
-        let (screen, command) = Router::initial_screen(flags);
+        let (mut screen, command) = Router::initial_screen(flags);
+        let mut commands = Vec::new();
+        commands.push(screen.on_create());
+        commands.push(screen.on_present());
+        commands.push(command);
         (
             RoutedApp {
                 screen_stacks: vec![vec![screen]],
                 router: PhantomData,
                 executor: PhantomData,
             },
-            command,
+            Command::batch(commands),
         )
     }
 
