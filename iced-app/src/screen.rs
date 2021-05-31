@@ -33,11 +33,11 @@ pub trait Screen<RouteMessage, ScreenMessage, GlobalMessage = ()>: Debug + Send 
         Command::none()
     }
 
-    fn on_dismiss(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+    fn on_stop_presenting(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
         Command::none()
     }
 
-    fn on_drop(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+    fn on_dismiss(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
         Command::none()
     }
 

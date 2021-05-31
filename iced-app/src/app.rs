@@ -115,14 +115,14 @@ where
                 let mut commands = Vec::new();
                 match navigation_type {
                     NavigationType::PushScreen => {
-                        commands.push(self.top_screen_mut().on_dismiss());
+                        commands.push(self.top_screen_mut().on_stop_presenting());
                         self.top_screen_stack_mut().push(Router::screen(route));
                         let top_screen_mut = self.top_screen_mut();
                         commands.push(top_screen_mut.on_create());
                         commands.push(top_screen_mut.on_present());
                     }
                     NavigationType::PushScreenStack => {
-                        commands.push(self.top_screen_mut().on_dismiss());
+                        commands.push(self.top_screen_mut().on_stop_presenting());
                         self.screen_stacks.push(vec![Router::screen(route)]);
                         let top_screen_mut = self.top_screen_mut();
                         commands.push(top_screen_mut.on_create());
@@ -135,23 +135,21 @@ where
                 let mut commands = Vec::new();
                 if self.screen_stacks.len() > 1 {
                     let top_screen_mut = self.top_screen_mut();
+                    commands.push(top_screen_mut.on_stop_presenting());
                     commands.push(top_screen_mut.on_dismiss());
-                    commands.push(top_screen_mut.on_drop());
                     self.screen_stacks.pop();
-                    let top_screen_mut = self.top_screen_mut();
-                    commands.push(top_screen_mut.on_present());
+                    commands.push(self.top_screen_mut().on_present());
                 }
                 Command::batch(commands)
             }
             Message::PopScreen => {
                 let mut commands = Vec::new();
-                if self.screen_stacks.len() > 1 {
+                if self.top_screen_stack_mut().len() > 1 {
                     let top_screen_mut = self.top_screen_mut();
+                    commands.push(top_screen_mut.on_stop_presenting());
                     commands.push(top_screen_mut.on_dismiss());
-                    commands.push(top_screen_mut.on_drop());
                     self.top_screen_stack_mut().pop();
-                    let top_screen_mut = self.top_screen_mut();
-                    commands.push(top_screen_mut.on_present());
+                    commands.push(self.top_screen_mut().on_present());
                 }
                 Command::batch(commands)
             }
