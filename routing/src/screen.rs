@@ -11,22 +11,33 @@ pub trait Screen<RouteMessage, ScreenMessage, GlobalMessage = ()>: Debug + Send 
 
     fn update(
         &mut self,
-        message: ScreenMessage,
-        clipboard: &mut iced::Clipboard,
-    ) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>>;
+        _message: ScreenMessage,
+        _clipboard: &mut iced::Clipboard,
+    ) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+        Command::none()
+    }
 
-    fn global_update(&mut self, _message: GlobalMessage, _clipboard: &mut iced::Clipboard) {}
+    fn global_update(
+        &mut self,
+        _message: GlobalMessage,
+        _clipboard: &mut iced::Clipboard,
+    ) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+        Command::none()
+    }
 
-    fn on_push(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+    fn on_create(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
         Command::none()
     }
-    fn on_push_stack(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+
+    fn on_present(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
         Command::none()
     }
-    fn on_pop(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+
+    fn on_dismiss(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
         Command::none()
     }
-    fn on_pop_stack(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
+
+    fn on_drop(&mut self) -> Command<Message<RouteMessage, ScreenMessage, GlobalMessage>> {
         Command::none()
     }
 
