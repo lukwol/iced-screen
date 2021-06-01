@@ -1,5 +1,5 @@
 use iced::{Command, Element};
-use iced_app::{
+use iced_screen::{
     message::Message,
     screen::{InitialScreen, Screen},
 };

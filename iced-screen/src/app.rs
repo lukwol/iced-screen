@@ -81,10 +81,7 @@ where
 
     fn new(flags: Self::Flags) -> (Self, Command<Self::Message>) {
         let (mut screen, command) = Router::initial_screen(flags);
-        let mut commands = Vec::new();
-        commands.push(screen.on_create());
-        commands.push(screen.on_present());
-        commands.push(command);
+        let commands = vec![screen.on_create(), screen.on_present(), command];
         (
             RoutedApp {
                 screen_stacks: vec![vec![screen]],

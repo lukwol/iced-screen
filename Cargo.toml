@@ -1,5 +1,5 @@
 [package]
-name = "iced-app-example"
+name = "greeting-app"
 version = "0.1.0"
 authors = ["Łukasz Wolańczyk <wolanczyk.lukasz@gmail.com>"]
 edition = "2018"
@@ -11,4 +11,4 @@ edition = "2018"
 [dependencies]
 iced = "0.3.0"
 rand = "0.8.3"
-iced-app = { path = "iced-app" }
+iced-screen = { path = "iced-screen" }
