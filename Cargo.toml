@@ -1,14 +1,11 @@
 [package]
-name = "greeting-app"
+name = "iced-screen"
 version = "0.1.0"
 authors = ["Łukasz Wolańczyk <wolanczyk.lukasz@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[workspace]
-
 [dependencies]
 iced = "0.3.0"
+
+[dev-dependencies]
 rand = "0.8.3"
-iced-screen = { path = "iced-screen" }

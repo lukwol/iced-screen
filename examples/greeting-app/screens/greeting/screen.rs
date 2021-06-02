@@ -26,7 +26,7 @@ impl GreetingScreen {
 
 impl Screen<RouteMessage, ScreenMessage> for GreetingScreen {
     fn title(&self) -> String {
-        "Greeter App".to_string()
+        "Greeting App".to_string()
     }
 
     fn update(
