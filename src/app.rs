@@ -7,6 +7,8 @@ use std::{
 use iced::{executor, Application, Command, Element};
 use screen::Screen;
 
+use crate::message::NavigateMessage;
+
 use super::{
     message::{Message, NavigationType},
     router, screen,
@@ -109,51 +111,53 @@ where
                     .map(|screen| screen.global_update(msg, clipboard)),
             ),
             Message::Local(msg) => self.top_screen_mut().update(msg, clipboard),
-            Message::Navigate {
-                route,
-                navigation_type,
-            } => {
-                let mut commands = Vec::new();
-                match navigation_type {
-                    NavigationType::PushScreen => {
-                        commands.push(self.top_screen_mut().on_stop_presenting());
-                        self.top_screen_stack_mut().push(Router::screen(route));
-                        let top_screen_mut = self.top_screen_mut();
-                        commands.push(top_screen_mut.on_create());
-                        commands.push(top_screen_mut.on_present());
+            Message::Navigate(msg) => match msg {
+                NavigateMessage::Route {
+                    route,
+                    navigation_type,
+                } => {
+                    let mut commands = Vec::new();
+                    match navigation_type {
+                        NavigationType::PushScreen => {
+                            commands.push(self.top_screen_mut().on_stop_presenting());
+                            self.top_screen_stack_mut().push(Router::screen(route));
+                            let top_screen_mut = self.top_screen_mut();
+                            commands.push(top_screen_mut.on_create());
+                            commands.push(top_screen_mut.on_present());
+                        }
+                        NavigationType::PushScreenStack => {
+                            commands.push(self.top_screen_mut().on_stop_presenting());
+                            self.screen_stacks.push(vec![Router::screen(route)]);
+                            let top_screen_mut = self.top_screen_mut();
+                            commands.push(top_screen_mut.on_create());
+                            commands.push(top_screen_mut.on_present());
+                        }
                     }
-                    NavigationType::PushScreenStack => {
-                        commands.push(self.top_screen_mut().on_stop_presenting());
-                        self.screen_stacks.push(vec![Router::screen(route)]);
+                    Command::batch(commands)
+                }
+                NavigateMessage::PopScreen => {
+                    let mut commands = Vec::new();
+                    if self.top_screen_stack_mut().len() > 1 {
                         let top_screen_mut = self.top_screen_mut();
-                        commands.push(top_screen_mut.on_create());
-                        commands.push(top_screen_mut.on_present());
+                        commands.push(top_screen_mut.on_stop_presenting());
+                        commands.push(top_screen_mut.on_dismiss());
+                        self.top_screen_stack_mut().pop();
+                        commands.push(self.top_screen_mut().on_present());
                     }
+                    Command::batch(commands)
                 }
-                Command::batch(commands)
-            }
-            Message::PopScreenStack => {
-                let mut commands = Vec::new();
-                if self.screen_stacks.len() > 1 {
-                    let top_screen_mut = self.top_screen_mut();
-                    commands.push(top_screen_mut.on_stop_presenting());
-                    commands.push(top_screen_mut.on_dismiss());
-                    self.screen_stacks.pop();
-                    commands.push(self.top_screen_mut().on_present());
+                NavigateMessage::PopScreenStack => {
+                    let mut commands = Vec::new();
+                    if self.screen_stacks.len() > 1 {
+                        let top_screen_mut = self.top_screen_mut();
+                        commands.push(top_screen_mut.on_stop_presenting());
+                        commands.push(top_screen_mut.on_dismiss());
+                        self.screen_stacks.pop();
+                        commands.push(self.top_screen_mut().on_present());
+                    }
+                    Command::batch(commands)
                 }
-                Command::batch(commands)
-            }
-            Message::PopScreen => {
-                let mut commands = Vec::new();
-                if self.top_screen_stack_mut().len() > 1 {
-                    let top_screen_mut = self.top_screen_mut();
-                    commands.push(top_screen_mut.on_stop_presenting());
-                    commands.push(top_screen_mut.on_dismiss());
-                    self.top_screen_stack_mut().pop();
-                    commands.push(self.top_screen_mut().on_present());
-                }
-                Command::batch(commands)
-            }
+            },
         }
     }
 

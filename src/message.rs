@@ -2,9 +2,14 @@ use std::fmt::Debug;
 
 #[derive(Debug, Clone)]
 pub enum Message<RouteMessage, ScreenMessage, GlobalMessage = ()> {
-    Global(GlobalMessage),
     Local(ScreenMessage),
-    Navigate {
+    Global(GlobalMessage),
+    Navigate(NavigateMessage<RouteMessage>),
+}
+
+#[derive(Debug, Clone)]
+pub enum NavigateMessage<RouteMessage> {
+    Route {
         route: RouteMessage,
         navigation_type: NavigationType,
     },
@@ -14,6 +19,6 @@ pub enum Message<RouteMessage, ScreenMessage, GlobalMessage = ()> {
 
 #[derive(Debug, Clone)]
 pub enum NavigationType {
-    PushScreen,
     PushScreenStack,
+    PushScreen,
 }

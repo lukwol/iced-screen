@@ -1,5 +1,5 @@
 use iced::{Align, Button, Column, Container, Element, Length, Space, Text, TextInput};
-use iced_screen::message::{Message, NavigationType};
+use iced_screen::message::{Message, NavigateMessage, NavigationType};
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
 
@@ -30,23 +30,23 @@ pub(super) fn input_view<'a>(
                 )
                 .padding(10)
                 .width(Length::Units(200))
-                .on_submit(Message::Navigate {
+                .on_submit(Message::Navigate(NavigateMessage::Route {
                     route: RouteMessage::GreetingScreenRoute {
                         person_name: model.person_name.to_string(),
                     },
                     navigation_type: NavigationType::PushScreen,
-                })
+                }))
                 .style(view_state.theme),
             )
             .push(Space::new(Length::Units(0), Length::Units(30)))
             .push(
                 Button::new(&mut view_state.button_state, Text::new("Go!"))
-                    .on_press(Message::Navigate {
+                    .on_press(Message::Navigate(NavigateMessage::Route {
                         route: RouteMessage::GreetingScreenRoute {
                             person_name: model.person_name.to_string(),
                         },
                         navigation_type: NavigationType::PushScreen,
-                    })
+                    }))
                     .padding(10)
                     .style(view_state.theme),
             ),

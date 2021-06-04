@@ -1,5 +1,5 @@
 use iced::{Align, Button, Column, Container, Element, Length, Space, Text};
-use iced_screen::message::Message;
+use iced_screen::message::{Message, NavigateMessage};
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
 
@@ -24,7 +24,7 @@ pub(super) fn greeting_view<'a>(
             .push(
                 Button::new(&mut view_state.button_state, Text::new("Go Back!"))
                     .padding(10)
-                    .on_press(Message::PopScreen)
+                    .on_press(Message::Navigate(NavigateMessage::PopScreen))
                     .style(view_state.theme),
             ),
     )
