@@ -1,8 +1,5 @@
 use iced::{Command, Element};
-use iced_screen::{
-    message::Message,
-    screen::{InitialScreen, Screen},
-};
+use iced_screen::{message::Message, screen::Screen};
 
 use crate::common::messages::{route::RouteMessage, screen::ScreenMessage};
 
@@ -11,17 +8,6 @@ use super::{state::State, view::input_view, InputScreenMessage};
 #[derive(Debug, Default)]
 pub(crate) struct InputScreen {
     state: State,
-}
-
-impl InitialScreen<RouteMessage, ScreenMessage> for InputScreen {
-    fn new(
-        _flags: (),
-    ) -> (
-        Box<dyn Screen<RouteMessage, ScreenMessage>>,
-        iced::Command<Message<RouteMessage, ScreenMessage>>,
-    ) {
-        (Box::new(InputScreen::default()), Command::none())
-    }
 }
 
 impl Screen<RouteMessage, ScreenMessage> for InputScreen {
