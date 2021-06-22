@@ -1,9 +1,8 @@
 use std::fmt::Debug;
 
 #[derive(Debug, Clone)]
-pub enum Message<RouteMessage, ScreenMessage, GlobalMessage = ()> {
-    Local(ScreenMessage),
-    Global(GlobalMessage),
+pub enum Message<RouteMessage, ScreenMessage> {
+    Screen(ScreenMessage),
     Navigate(NavigateMessage<RouteMessage>),
 }
 

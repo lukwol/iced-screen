@@ -23,7 +23,7 @@ pub(super) fn input_view<'a>(
                     "Enter your name",
                     &model.person_name,
                     |text| {
-                        Message::Local(ScreenMessage::InputScreen(
+                        Message::Screen(ScreenMessage::InputScreen(
                             InputScreenMessage::PersonNameChanged(text),
                         ))
                     },

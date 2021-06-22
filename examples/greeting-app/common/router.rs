@@ -22,7 +22,7 @@ impl router::Router<ScreenMessage> for Router {
     fn screen(message: Self::RouteMessage) -> Box<dyn Screen<Self::RouteMessage, ScreenMessage>> {
         match message {
             messages::route::RouteMessage::GreetingScreenRoute { person_name } => {
-                Box::new(GreetingScreen::new(person_name))
+                Box::new(GreetingScreen::new(person_name.to_string()))
             }
         }
     }

@@ -14,52 +14,41 @@ use super::{
     router, screen,
 };
 
-type ScreenStack<RouteMessage, ScreenMessage, GlobalMessage = ()> =
-    Vec<Box<dyn Screen<RouteMessage, ScreenMessage, GlobalMessage>>>;
+type ScreenStack<RouteMessage, ScreenMessage> = Vec<Box<dyn Screen<RouteMessage, ScreenMessage>>>;
 
-pub struct RoutedApp<
-    Router,
-    ScreenMessage,
-    GlobalMessage = (),
-    Flags = (),
-    Executor = executor::Default,
-> where
-    Router: router::Router<ScreenMessage, GlobalMessage, Flags>,
+pub struct RoutedApp<Router, ScreenMessage, Flags = (), Executor = executor::Default>
+where
+    Router: router::Router<ScreenMessage, Flags>,
 {
-    screen_stacks: Vec<ScreenStack<Router::RouteMessage, ScreenMessage, GlobalMessage>>,
+    screen_stacks: Vec<ScreenStack<Router::RouteMessage, ScreenMessage>>,
     router: PhantomData<Router>,
     executor: PhantomData<Executor>,
 }
 
-impl<Router, ScreenMessage, GlobalMessage, Executor, Flags>
-    RoutedApp<Router, ScreenMessage, GlobalMessage, Flags, Executor>
+impl<Router, ScreenMessage, Executor, Flags> RoutedApp<Router, ScreenMessage, Flags, Executor>
 where
-    Router: router::Router<ScreenMessage, GlobalMessage, Flags>,
+    Router: router::Router<ScreenMessage, Flags>,
 {
-    fn top_screen_stack(&self) -> &ScreenStack<Router::RouteMessage, ScreenMessage, GlobalMessage> {
+    fn top_screen_stack(&self) -> &ScreenStack<Router::RouteMessage, ScreenMessage> {
         self.screen_stacks
             .last()
             .expect("Application doesn't have any screen stacks")
     }
 
-    fn top_screen_stack_mut(
-        &mut self,
-    ) -> &mut ScreenStack<Router::RouteMessage, ScreenMessage, GlobalMessage> {
+    fn top_screen_stack_mut(&mut self) -> &mut ScreenStack<Router::RouteMessage, ScreenMessage> {
         self.screen_stacks
             .last_mut()
             .expect("Application doesn't have any screen stacks")
     }
 
-    fn top_screen(&self) -> &dyn Screen<Router::RouteMessage, ScreenMessage, GlobalMessage> {
+    fn top_screen(&self) -> &dyn Screen<Router::RouteMessage, ScreenMessage> {
         self.top_screen_stack()
             .last()
             .expect("Application doesn't have any screens")
             .deref()
     }
 
-    fn top_screen_mut(
-        &mut self,
-    ) -> &mut dyn Screen<Router::RouteMessage, ScreenMessage, GlobalMessage> {
+    fn top_screen_mut(&mut self) -> &mut dyn Screen<Router::RouteMessage, ScreenMessage> {
         self.top_screen_stack_mut()
             .last_mut()
             .expect("Application doesn't have any screens")
@@ -67,17 +56,16 @@ where
     }
 }
 
-impl<Router, ScreenMessage, GlobalMessage, Flags, Executor> Application
-    for RoutedApp<Router, ScreenMessage, GlobalMessage, Flags, Executor>
+impl<Router, ScreenMessage, Flags, Executor> Application
+    for RoutedApp<Router, ScreenMessage, Flags, Executor>
 where
-    Router: router::Router<ScreenMessage, GlobalMessage, Flags>,
+    Router: router::Router<ScreenMessage, Flags>,
     ScreenMessage: Debug + Clone + Send,
-    GlobalMessage: Debug + Clone + Copy + Send,
     Executor: iced::Executor,
 {
     type Executor = Executor;
 
-    type Message = Message<Router::RouteMessage, ScreenMessage, GlobalMessage>;
+    type Message = Message<Router::RouteMessage, ScreenMessage>;
 
     type Flags = Flags;
 
@@ -104,13 +92,12 @@ where
         clipboard: &mut iced::Clipboard,
     ) -> Command<Self::Message> {
         match message {
-            Message::Global(msg) => Command::batch(
+            Message::Screen(msg) => Command::batch(
                 self.screen_stacks
                     .iter_mut()
                     .flatten()
-                    .map(|screen| screen.global_update(msg, clipboard)),
+                    .map(|screen| screen.update(msg.clone(), clipboard)),
             ),
-            Message::Local(msg) => self.top_screen_mut().update(msg, clipboard),
             Message::Navigate(msg) => match msg {
                 NavigateMessage::Route {
                     route,
