@@ -52,11 +52,10 @@ where
     T: Screen<RouteMessage, ScreenMessage> + ?Sized,
     ScreenMessage: Clone,
 {
-    println!("Calling update children!");
     Command::batch(
         screen
             .child_screens()
-            .iter_mut()
+            .into_iter()
             .map(|screen| screen.update(message.clone(), clipboard)),
     )
 }
@@ -71,7 +70,7 @@ where
     Command::batch(
         screen
             .child_screens()
-            .iter_mut()
+            .into_iter()
             .map(|screen| screen.on_create()),
     )
 }
@@ -86,7 +85,7 @@ where
     Command::batch(
         screen
             .child_screens()
-            .iter_mut()
+            .into_iter()
             .map(|screen| screen.on_present()),
     )
 }
@@ -101,7 +100,7 @@ where
     Command::batch(
         screen
             .child_screens()
-            .iter_mut()
+            .into_iter()
             .map(|screen| screen.on_stop_presenting()),
     )
 }
@@ -116,7 +115,7 @@ where
     Command::batch(
         screen
             .child_screens()
-            .iter_mut()
+            .into_iter()
             .map(|screen| screen.on_dismiss()),
     )
 }

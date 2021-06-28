@@ -40,4 +40,7 @@ Temporary Items
 # More information here https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html
 Cargo.lock
 
+### IntelliJ IDEA ###
+.idea
+
 # End of https://www.toptal.com/developers/gitignore/api/rust,macos
